@@ -44,6 +44,29 @@ let mortgage = (interestRate * loanAmount)/(1-Math.pow(1+interestRate,-numberMon
 return parseFloat(mortgage.toFixed(2));
 }
 
+//calculate the cost of the loan using three values: loan amount, interest rate, and number of payments.
+
+function calculateLoanCost(loanAmount,interestRate,numberMonthlyPayments){
+    //function to convert user input in to percentage
+    function percentageToDecimal(percent){
+        return percent / 12 / 100;
+    }
+
+    //reassign interest rate using the percentage to decimal function 
+    interestRate = percentageToDecimal(interestRate);
+
+    //function to convert years to months 
+    function yearsToMonths(year){
+    return year * 12;
+    }
+
+    numberMonthlyPayments = yearsToMonths(numberMonthlyPayments)
+
+    //formula to calculate loan cost NEEDS FIXED 
+    let loanCost = (loanAmount * interestRate * numberMonthlyPayments)/(loanDuration.value)/(12) 
+    return parseFloat(loanCost.toFixed(2))
+}
+
 //onsubmit event listener, callback function takes in the event itself as an argument
 form.onsubmit=(e)=>{
     e.preventDefault();
@@ -53,7 +76,12 @@ form.onsubmit=(e)=>{
     //call the calculateMortgage Function
     let monthlyPayment = calculateMortgage(loanAmount,interestRate.value,loanDuration.value);
 
+    //call the calculateLoanCost function 
+
+   totalLoanCost = calculateLoanCost(loanAmount,interestRate.value,loanDuration.value)
+
     document.getElementById("monthlyPayment").innerHTML= `£ ${monthlyPayment}`;
+    document.getElementById("totalLoanCost").innerHTML= `£ ${totalLoanCost}`;
 }
 
 //function to prompt the user to complete all fields, if any are left blank 
